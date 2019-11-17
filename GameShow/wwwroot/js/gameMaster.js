@@ -128,6 +128,7 @@
             buzzedTeam = teamName;
             setTeamBuzzedBy(teamName, player);
             document.getElementsByClassName(`team${teams[teamName]}`)[0].classList.add("buzzed");
+            commsSvc.setWinner(teamName, player);
         } else {
             setTeamBuzzedLateBy(teamName, player);
             document.getElementsByClassName(`team${teams[teamName]}`)[0].classList.add("too-late");

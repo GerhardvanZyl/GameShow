@@ -14,12 +14,14 @@ namespace GameShow.Services
 
         void AddTeam(string teamName);
 
-        void LeaveTeam(string teamName, string memberName, string connectionId);
+        //void LeaveTeam(string teamName, string memberName, string connectionId);
 
         void UpdateConnection(string teamName, string playerName, string connectionId);
 
         List<Team> GetTeams();
 
         void SetScore(string teamName, int score);
+
+        string GetConnectionId(string teamName, string player);
     }
 }

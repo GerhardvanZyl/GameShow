@@ -7,16 +7,18 @@
 
 <div class="text-center">
     <div>
-        <div>Team Name</div>
-        <select id="team-options">
-            <option value="0">--None--</option>
-        </select>
-        <div>Name</div>
-        <div>
-            <input id="name-input" type="text" />
-        </div>
-        <div>
-            <button id="name-save">Save</button>
+        <div id="team-player">
+            <div>Team Name</div>
+            <select id="team-options">
+                <option value="0">--None--</option>
+            </select>
+            <div>Name</div>
+            <div>
+                <input id="name-input" type="text" />
+            </div>
+            <div>
+                <button id="name-save">Save</button>
+            </div>
         </div>
         <br />
         <div>
@@ -29,5 +31,17 @@
 <script src="~/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/communicationService.js"></script>
 <script src="~/js/player.js"></script>
+<script src="~/lib/no-sleep/NoSleep.min.js"></script>
+<script type="text/javascript">
+
+    var noSleep = new NoSleep();
+
+    // Enable wake lock.
+    // (must be wrapped in a user input event handler e.g. a mouse or touch handler)
+    document.addEventListener('click', function enableNoSleep() {
+      document.removeEventListener('click', enableNoSleep, false);
+      noSleep.enable();
+    }, false);
+</script>
 
 

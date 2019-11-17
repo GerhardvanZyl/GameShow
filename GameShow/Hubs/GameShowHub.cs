@@ -65,7 +65,7 @@ namespace GameShow.Hubs
         }
 
 
-        public void UpdateConnectionInfo(string team, string player)
+        public async Task UpdateConnectionInfo(string team, string player)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace GameShow.Hubs
             }
             catch (Exception)
             {
-                Clients.Caller.SendAsync("ClearCache");
+                await Clients.Caller.SendAsync("ClearCache");
             }
         }
 
@@ -100,7 +100,14 @@ namespace GameShow.Hubs
 
         }
 
-        public void GetTeams()
+        public async Task SetWinner(string teamName, string player) 
+        {
+            string connectionId = _state.GetConnectionId(teamName, player);
+
+            await Clients.Client(connectionId).SendAsync("IsWinner");
+        }
+
+        public async Task GetTeams()
         {
             var teams = _state.GetTeams();
 
@@ -108,7 +115,7 @@ namespace GameShow.Hubs
             {
                 // just spam it, no waiting.
                 // Yes, we should send a list...
-                Clients.Caller.SendAsync("TeamAdded", team.Name, team.Score);
+                await Clients.Caller.SendAsync("TeamAdded", team.Name, team.Score);
             }
         }
     }

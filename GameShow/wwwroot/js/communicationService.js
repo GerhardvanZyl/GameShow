@@ -8,6 +8,9 @@ class CommunicationService {
     _buzzerUpCallbacks = [];
     _onConnectedCallbacks = [];
     _clearCacheCallbacks = [];
+    _isWinnerStartCallbacks = [];
+    _isWinnerEndCallbacks = [];
+    //_setWinnerCallbacks = [];
 
     constructor() {
         this._hubConnection = new signalR.HubConnectionBuilder()
@@ -37,6 +40,18 @@ class CommunicationService {
         this._hubConnection.on("BuzzerUp", (teamName, player) => {
             this._buzzerUpCallbacks.forEach((cb) => {
                 cb(teamName, player);
+            });
+        });
+
+        this._hubConnection.on("IsWinner", () => {
+            this._isWinnerStartCallbacks.forEach((cb) => {
+                cb();
+            });
+        });
+
+        this._hubConnection.on("ClearCache", () => {
+            this._clearCacheCallbacks.forEach((cb) => {
+                cb();
             });
         });
     }
@@ -77,6 +92,12 @@ class CommunicationService {
         });
     }
 
+    setWinner(teamName, player) {
+        this._hubConnection.invoke("SetWinner", teamName, player).catch((err) => {
+            console.log("Error: ", err);
+        });
+    }
+
     subscribeTeamAdded(callback) {
         this._teamAddedCallbacks.push(callback);
     }
@@ -96,6 +117,18 @@ class CommunicationService {
     subscribeClearCache(callback) {
         this._clearCacheCallbacks.push(callback);
     }
+
+    subscribeIsWinnerStart(callback) {
+        this._isWinnerStartCallbacks.push(callback);
+    }
+
+    subscribeIsWinnerEnd(callback) {
+        this._isWinnerEndCallbacks.push(callback);
+    }
+
+    //subscribeSetWinner(callback) {
+    //    this._setWinnerCallbacks.push(callback);
+    //}
 
     updateConnectionFor(teamName, playerName) {
         this._hubConnection.invoke("UpdateConnectionInfo", teamName, playerName).catch((err) => {

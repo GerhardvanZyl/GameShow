@@ -3,16 +3,43 @@
 {
     const commsSvc = new CommunicationService();
     const teamOptions = [];
+    let audio;
 
-    document.getElementById("buzzer-button").addEventListener("mousedown", () => {
-        console.log("Buzzer Down");
-        commsSvc.buzzerDown();
-    });
-
-    document.getElementById("buzzer-button").addEventListener("mouseup", () => {
+    const handleBuzzerUp = (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
         console.log("Buzzer up");
         commsSvc.buzzerUp();
+
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    };
+
+    const handleBuzzerDown = (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
+        console.log("Buzzer Down");
+        commsSvc.buzzerDown();
+    };
+
+    document.getElementById("buzzer-button").addEventListener("mousedown", (evt) => {
+        handleBuzzerDown(evt);
     });
+
+    document.getElementById("buzzer-button").addEventListener("mouseup", (evt) => {
+        handleBuzzerUp(evt);
+    });
+
+    document.getElementById("buzzer-button").addEventListener("touchstart", (evt) => {
+        handleBuzzerDown(evt);
+    });
+
+    document.getElementById("buzzer-button").addEventListener("touchend", (evt) => {
+        handleBuzzerUp(evt);
+    });
+
 
     document.getElementById("name-save").addEventListener("click", () => {
         let player = document.getElementById("name-input").value;
@@ -24,6 +51,9 @@
 
         localStorage.setItem("PlayerName", player);
         localStorage.setItem("TeamName", team);
+
+        document.getElementById("team-player").style.display = "none";
+        document.getElementById("header").innerText = team;
     });
 
     commsSvc.subscribeTeamAdded((teamAdded) => {
@@ -31,6 +61,11 @@
 
         let teamdd = document.getElementById("team-options");
         teamdd.insertAdjacentHTML("beforeend", `<option value="${teamAdded}">${teamAdded}</option>`);
+    });
+
+    commsSvc.subscribeIsWinnerStart(() => {
+        audio = new Audio("assets/buzz.mp3");
+        audio.play();
     });
 
     commsSvc.subscribeOnConnected(() => {
@@ -48,6 +83,9 @@
                     if (document.querySelectorAll("#team-options>option").length > 1) {
                         document.getElementById("team-options").value = teamName;
                         document.getElementById("name-input").value = playerName;
+
+                        document.getElementById("team-player").style.display = "none";
+                        document.getElementById("header").innerText = teamName;
                     } else {
                         clearCache();
                     }
@@ -57,12 +95,22 @@
     });
 
     const clearCache = () => {
-        console.log("Cleared Cache");
-        localStorage.removeItem("PlayerName");
-        localStorage.removeItem("TeamName");
+
+        // And here the setTimeout chickens come home to roost... 
+        setTimeout(() => {
+
+            console.log("Cleared Cache");
+            localStorage.removeItem("PlayerName");
+            localStorage.removeItem("TeamName");
+
+            document.getElementById("team-options").value = "--None--";
+            document.getElementById("name-input").value = "";
+
+        }, 2500);
+
     };
 
     commsSvc.subscribeClearCache(clearCache);
-    
+
 }
 

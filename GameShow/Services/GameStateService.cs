@@ -51,23 +51,24 @@ namespace GameShow.Services
 
         public void AddTeam(string teamName)
         {
+
             Teams.Add(teamName, new Team() { Name = teamName});
             _repo.SaveSession(Teams);
         }
 
-        public void LeaveTeam(string playerName, string teamName, string connectionId)
-        {
-            foreach (var team in Teams)
-            {
-                bool wasFound = team.Value.Members.Remove(
-                    team.Value.Members.Single(member => member.ConnectionId == connectionId)
-                    );
+        //public void LeaveTeam(string playerName, string teamName, string connectionId)
+        //{
+        //    foreach (var team in Teams)
+        //    {
+        //        bool wasFound = team.Value.Members.Remove(
+        //            team.Value.Members.Single(member => member.ConnectionId == connectionId)
+        //            );
 
-                if (wasFound) break;
-            }
+        //        if (wasFound) break;
+        //    }
 
-            _repo.SaveSession(Teams);
-        }
+        //    _repo.SaveSession(Teams);
+        //}
 
         public void SetScore(string teamName, int score)
         {
@@ -75,11 +76,11 @@ namespace GameShow.Services
             _repo.SaveSession(Teams);
         }
 
-        public void UpdateConnection(string playerName, string teamName, string connectionId)
+        public void UpdateConnection(string teamName, string playerName, string connectionId)
         {
             // No exception handling. Quick way to just see if we cant update and then clear the cache client side.
-            var player = Teams[teamName].Members.Single(player => player.Name == playerName);
-            player.ConnectionId = connectionId;
+            var teamMember = Teams[teamName].Members.Single(player => player.Name == playerName);
+            teamMember.ConnectionId = connectionId;
 
             _repo.SaveSession(Teams);
         }
@@ -87,6 +88,20 @@ namespace GameShow.Services
         public List<Team> GetTeams()
         {
             return Teams.Values.ToList<Team>();
+        }
+
+        public string? GetConnectionId(string teamName, string player)
+        {
+            foreach (var team in Teams)
+            {
+                var teamMember = team.Value.Members.Single(
+                    member => member.Name == player
+                    );
+
+                return teamMember.ConnectionId;
+            }
+
+            return null;
         }
     }
 }
