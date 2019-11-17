@@ -1,0 +1,148 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+
+#buzzer-button {
+    width: 100%;
+    height: 300px;
+}
+
+#score-boards > div {
+    width: 40%;
+    float: left;
+    margin: 5px;
+}
+
+#score-boards h3 {
+    display: inline;
+}
+
+#score-boards input {
+    border: none;
+    font-family: Arial;
+    font-size:2rem;
+    width: 40%;
+}
+
+.score-card {
+    height: 400px;
+    border: 10px solid black;
+    
+}
+
+.score-card.team1.buzzed {
+    background-color: blue;
+}
+
+.score-card.team2.buzzed {
+    background-color: red;
+}
+
+.score-card.team3.buzzed {
+    background-color: green;
+}
+
+.score-card.team4.buzzed {
+    background-color: yellow;
+}
+
+.score-card.team1 {
+    background-color: #C0C0FF;
+}
+
+.score-card.team2 {
+    background-color: #FFC0C0;
+}
+
+.score-card.team3 {
+    background-color: #C0E0C0;
+}
+
+.score-card.team4 {
+    background-color: #FFFFC0;
+}
+
+.score-card.team1.too-late {
+    border-color: blue;
+}
+
+.score-card.team2.too-late {
+    border-color: red;
+}
+
+.score-card.team3.too-late {
+    border-color: green;
+}
+
+.score-card.team4.too-late {
+    border-color: yellow;
+}

@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs/GameShow
+/GameShow/bin/Debug/netcoreapp3.0
+/GameShow/obj

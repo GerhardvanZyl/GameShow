@@ -1,0 +1,22 @@
+﻿@page
+@model GameShow.Pages.GameMasterModel
+@{
+    ViewData["Title"] = "GameMaster";
+}
+
+<h1>GameMaster</h1>
+
+<div>
+    <input type="text" id="team-name" />
+    <button id="add-team">Add Team</button>
+    <hr />
+    <div id="score-boards">
+    </div>
+</div>
+<script type="text/html">
+    // TODO: security
+    window.userToken = "GameMaster";
+</script>
+<script src="~/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/communicationService.js"></script>
+<script src="~/js/gameMaster.js"></script>
