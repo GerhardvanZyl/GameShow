@@ -23,5 +23,13 @@ namespace GameShow.Services
         void SetScore(string teamName, int score);
 
         string GetConnectionId(string teamName, string player);
+
+        bool TryBuzz(string team);
+
+        bool ReleaseBuzzer(string team);
+
+        void SetGameMasterConnectionId(string connectionId);
+
+        string GetGameMasterConnectionId();
     }
 }

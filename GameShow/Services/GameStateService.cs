@@ -25,8 +25,10 @@ namespace GameShow.Services
         }
 
         private Dictionary<string, Team> Teams { get; set; } = new Dictionary<string, Team>();
+        private string currentActiveTeam = null;
+        private string gameMasterConnectionId = null;
 
-        private GameStateService() 
+        private GameStateService()
         {
             _repo = new JsonFileRepository();
 
@@ -35,6 +37,7 @@ namespace GameShow.Services
                 Teams = _repo.LoadSession();
             }
         }
+
 
         public void AddTeamMember(string teamName, string playerName, string connectionId)
         {
@@ -52,23 +55,9 @@ namespace GameShow.Services
         public void AddTeam(string teamName)
         {
 
-            Teams.Add(teamName, new Team() { Name = teamName});
+            Teams.Add(teamName, new Team() { Name = teamName });
             _repo.SaveSession(Teams);
         }
-
-        //public void LeaveTeam(string playerName, string teamName, string connectionId)
-        //{
-        //    foreach (var team in Teams)
-        //    {
-        //        bool wasFound = team.Value.Members.Remove(
-        //            team.Value.Members.Single(member => member.ConnectionId == connectionId)
-        //            );
-
-        //        if (wasFound) break;
-        //    }
-
-        //    _repo.SaveSession(Teams);
-        //}
 
         public void SetScore(string teamName, int score)
         {
@@ -90,7 +79,7 @@ namespace GameShow.Services
             return Teams.Values.ToList<Team>();
         }
 
-        public string? GetConnectionId(string teamName, string player)
+        public string GetConnectionId(string teamName, string player)
         {
             foreach (var team in Teams)
             {
@@ -102,6 +91,57 @@ namespace GameShow.Services
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns true if the current buzzer is first
+        /// Return false if another team is already pressing the buzzer.
+        /// </summary>
+        /// <param name="team"></param>
+        /// <returns></returns>
+        public bool TryBuzz(string team)
+        {
+            if (currentActiveTeam == null)
+            {
+                currentActiveTeam = team;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Return true if the current active team releases the buzzer
+        /// Otherwise return false if a "losing" team releases the buzzer
+        /// </summary>
+        /// <param name="teamName"></param>
+        /// <param name="player"></param>
+        /// <param name="connectionId"></param>
+        /// <returns></returns>
+        public bool ReleaseBuzzer(string team)
+        {
+            // TODO: Verify with connection ID
+            if (team == currentActiveTeam)
+            {
+                currentActiveTeam = null;
+                return true;
+            }
+            return false;
+
+        }
+
+        public void SetGameMasterConnectionId(string connectionId)
+        {
+            //if(gameMasterConnectionId != null)
+            //{
+            //    throw new System.Exception("There is already a game master registered");
+            //}
+            gameMasterConnectionId = connectionId; 
+        }
+
+        public string GetGameMasterConnectionId()
+        {
+            return gameMasterConnectionId;
         }
     }
 }

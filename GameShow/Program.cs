@@ -22,15 +22,15 @@ namespace GameShow
                 .AddCommandLine(args)
                 .Build();
 
-            var hostUrl = config["hosturl"];
-            if (string.IsNullOrEmpty(hostUrl))
-                hostUrl = "http://127.0.0.1:5000";
-
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                    .UseUrls(hostUrl);
+                    webBuilder.UseStartup<Startup>();
+                    
+                    var hostUrl = config["hosturl"];
+                    
+                    if (!string.IsNullOrEmpty(hostUrl))
+                        webBuilder.UseUrls(hostUrl);
                 });
         }
     }
