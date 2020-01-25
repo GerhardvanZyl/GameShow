@@ -6,6 +6,7 @@
     const teams = {};
     const scoreboardsContainer = document.getElementById("score-boards");
     const teamInput = document.getElementById("team-name");
+    const clearStateBtn = document.getElementById("clear-state");
     let buzzedTeam = null;
     const teamBuzzedBy = {};
     const teamBuzzedLateBy = {};
@@ -26,6 +27,12 @@
 
     commsSvc.subscribeOnConnected(() => {
         commsSvc.getTeams();
+    });
+
+    clearStateBtn.addEventListener('click', () => {
+        teamBuzzedBy = {};
+        teamBuzzedLateBy = {};
+        buzzedTeam = null;
     });
 
     const setTeamBuzzedBy = (team, player) => {

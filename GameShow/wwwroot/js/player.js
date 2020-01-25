@@ -3,6 +3,9 @@
 {
     const commsSvc = new CommunicationService();
     const teamOptions = [];
+    let teamCount = 0;
+    let teamDictionary = {};
+    let teamNumber = 0;
     let audio;
 
     const handleBuzzerUp = (evt) => {
@@ -45,26 +48,31 @@
         let player = document.getElementById("name-input").value;
         let team = document.getElementById("team-options").value;
 
-        console.log("saved name: ", player);
-
         commsSvc.saveName(team, player);
+        teamNumber = teamDictionary[team];
+        localStorage.setItem("TeamNumber", teamNumber);
 
         localStorage.setItem("PlayerName", player);
         localStorage.setItem("TeamName", team);
 
         document.getElementById("team-player").style.display = "none";
         document.getElementById("header").innerText = team;
+        document.getElementById("header").classList.add(`team${teamNumber}`);
     });
 
-    commsSvc.subscribeTeamAdded((teamAdded) => {
-        teamOptions.push(teamAdded);
+    commsSvc.subscribeTeamAdded((team) => {
+        teamOptions.push(team);
 
         let teamdd = document.getElementById("team-options");
-        teamdd.insertAdjacentHTML("beforeend", `<option value="${teamAdded}">${teamAdded}</option>`);
+        teamdd.insertAdjacentHTML("beforeend", `<option value="${team}">${team}</option>`);
+
+        teamDictionary[team] = ++teamCount;
     });
 
     commsSvc.subscribeIsWinnerStart(() => {
-        audio = new Audio("assets/buzz.mp3");
+        console.log("WINNER!! - Playing: ", `assets/buzz${teamNumber}.mp3` );
+
+        audio = new Audio(`assets/buzz${teamNumber}.mp3`);
         audio.play();
     });
 
@@ -73,6 +81,7 @@
 
         const playerName = localStorage.getItem("PlayerName");
         const teamName = localStorage.getItem("TeamName");
+        teamNumber = localStorage.getItem("TeamNumber");
 
         if (playerName !== null && teamName !== null) {
             commsSvc.updateConnectionFor(teamName, playerName);
@@ -86,6 +95,7 @@
 
                         document.getElementById("team-player").style.display = "none";
                         document.getElementById("header").innerText = teamName;
+                        document.getElementById("header").classList.add(`team${teamNumber}`);
                     } else {
                         clearCache();
                     }

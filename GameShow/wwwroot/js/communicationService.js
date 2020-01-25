@@ -1,144 +1,143 @@
 ﻿"use strict";
 
+let _hubConnection;
+let _teamAddedCallbacks = [];
+let _buzzerDownCallbacks = [];
+let _buzzerUpCallbacks = [];
+let _onConnectedCallbacks = [];
+let _clearCacheCallbacks = [];
+let _isWinnerStartCallbacks = [];
+let _isWinnerEndCallbacks = [];
+
 class CommunicationService {
 
-    _hubConnection;
-    _teamAddedCallbacks = [];
-    _buzzerDownCallbacks = [];
-    _buzzerUpCallbacks = [];
-    _onConnectedCallbacks = [];
-    _clearCacheCallbacks = [];
-    _isWinnerStartCallbacks = [];
-    _isWinnerEndCallbacks = [];
-    //_setWinnerCallbacks = [];
-
     constructor() {
-        this._hubConnection = new signalR.HubConnectionBuilder()
+        _hubConnection = new signalR.HubConnectionBuilder()
             .withAutomaticReconnect()
             .withUrl("/gameshow").build();
 
-        this._hubConnection.start().then(() => {
+        _hubConnection.start().then(() => {
             console.log("Hub connection started");
 
-            this._onConnectedCallbacks.forEach((cb) => {
+            _onConnectedCallbacks.forEach((cb) => {
                 cb();
             });
         });
 
-        this._hubConnection.on("TeamAdded", (teamName, score) => {
-            this._teamAddedCallbacks.forEach((cb) => {
+        _hubConnection.on("TeamAdded", (teamName, score) => {
+            _teamAddedCallbacks.forEach((cb) => {
                 cb(teamName, score);
             });
         });
 
-        this._hubConnection.on("BuzzerDown", (teamName, player) => {
-            this._buzzerDownCallbacks.forEach((cb) => {
+        _hubConnection.on("BuzzerDown", (teamName, player) => {
+            _buzzerDownCallbacks.forEach((cb) => {
                 cb(teamName, player);
             });
         });
 
-        this._hubConnection.on("BuzzerUp", (teamName, player) => {
-            this._buzzerUpCallbacks.forEach((cb) => {
+        _hubConnection.on("BuzzerUp", (teamName, player) => {
+            _buzzerUpCallbacks.forEach((cb) => {
                 cb(teamName, player);
             });
         });
 
-        this._hubConnection.on("IsWinner", () => {
-            this._isWinnerStartCallbacks.forEach((cb) => {
+        _hubConnection.on("IsWinner", () => {
+            _isWinnerStartCallbacks.forEach((cb) => {
                 cb();
             });
         });
 
-        this._hubConnection.on("ClearCache", () => {
-            this._clearCacheCallbacks.forEach((cb) => {
+        _hubConnection.on("ClearCache", () => {
+            _clearCacheCallbacks.forEach((cb) => {
                 cb();
             });
         });
     }
 
     getTeams() {
-        return this._hubConnection.invoke("GetTeams").catch((err) => {
+        return _hubConnection.invoke("GetTeams").catch((err) => {
             console.log("Error: ", err);
         });
     }
 
     addTeam(teamName) {
-        this._hubConnection.invoke("AddTeam", teamName).catch((err) => {
+        _hubConnection.invoke("AddTeam", teamName).catch((err) => {
             console.log("Error: ", err);
         });
     }
 
     saveName(team, player) {
-        this._hubConnection.invoke("SaveName", team, player).catch((err) => {
+        _hubConnection.invoke("SaveName", team, player).catch((err) => {
             console.log("Error: ", err);
         });
     }
 
     buzzerDown() {
-        this._hubConnection.invoke("BuzzerDown").catch((err) => {
+        _hubConnection.invoke("BuzzerDown").catch((err) => {
             console.log("Error: ", err);
         });
     }
 
     buzzerUp() {
-        this._hubConnection.invoke("BuzzerUp").catch((err) => {
+        _hubConnection.invoke("BuzzerUp").catch((err) => {
             console.log("Error: ", err);
         });
     }
 
     saveScore(teamName, score) {
-        this._hubConnection.invoke("SaveScore", teamName, score).catch((err) => {
+        _hubConnection.invoke("SaveScore", teamName, score).catch((err) => {
             console.log("Error: ", err);
         });
     }
 
     setWinner(teamName, player) {
-        this._hubConnection.invoke("SetWinner", teamName, player).catch((err) => {
+        _hubConnection.invoke("SetWinner", teamName, player).catch((err) => {
             console.log("Error: ", err);
         });
     }
 
     subscribeTeamAdded(callback) {
-        this._teamAddedCallbacks.push(callback);
+        _teamAddedCallbacks.push(callback);
     }
 
     subscribeBuzzerDown(callback) {
-        this._buzzerDownCallbacks.push(callback);
+        _buzzerDownCallbacks.push(callback);
     }
 
     subscribeBuzzerUp(callback) {
-        this._buzzerUpCallbacks.push(callback);
+        _buzzerUpCallbacks.push(callback);
     }
 
     subscribeOnConnected(callback) {
-        this._onConnectedCallbacks.push(callback);
+        _onConnectedCallbacks.push(callback);
     }
 
     subscribeClearCache(callback) {
-        this._clearCacheCallbacks.push(callback);
+        _clearCacheCallbacks.push(callback);
     }
 
     subscribeIsWinnerStart(callback) {
-        this._isWinnerStartCallbacks.push(callback);
+        _isWinnerStartCallbacks.push(callback);
     }
 
     subscribeIsWinnerEnd(callback) {
-        this._isWinnerEndCallbacks.push(callback);
+        _isWinnerEndCallbacks.push(callback);
     }
 
     //subscribeSetWinner(callback) {
-    //    this._setWinnerCallbacks.push(callback);
+    //    _setWinnerCallbacks.push(callback);
     //}
 
     updateConnectionFor(teamName, playerName) {
-        this._hubConnection.invoke("UpdateConnectionInfo", teamName, playerName).catch((err) => {
+        _hubConnection.invoke("UpdateConnectionInfo", teamName, playerName).catch((err) => {
             console.log("Error: ", err);
         });
     }
 
     addGameMaster(userToken) {
         // TODO: User token should validate that it is the correct game master page
-        //this._hubConnection.invoke("AddGameMaster", userToken).catch((err) => {
+        //_hubConnection.invoke("AddGameMaster", userToken).catch((err) => {
         //    console.log("Error: ", err);
         //});
     }
