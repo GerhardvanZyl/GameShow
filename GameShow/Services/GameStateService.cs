@@ -83,11 +83,16 @@ namespace GameShow.Services
         {
             foreach (var team in Teams)
             {
-                var teamMember = team.Value.Members.Single(
+                var teamMembers = team.Value.Members.Where(
                     member => member.Name == player
                     );
 
-                return teamMember.ConnectionId;
+                var teamMember = teamMembers.Count() > 0 ? teamMembers.First() : null;
+
+                if (teamMember != null)
+                {
+                    return teamMember.ConnectionId;
+                }
             }
 
             return null;

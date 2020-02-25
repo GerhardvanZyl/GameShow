@@ -146,3 +146,31 @@ body {
 .score-card.team4.too-late {
     border-color: yellow;
 }
+
+h1#header.team1{
+    color: darkblue;
+}
+
+h1#header.team2 {
+    color: darkred;
+}
+
+h1#header.team3 {
+    color: darkgreen;
+}
+
+h1#header.team4 {
+    color: goldenrod;
+}
+
+.logo{
+    width: 250px;
+}
+
+/*.game-master-heading{
+    float:left;
+}
+
+.game-master-image{
+    float:right;
+}*/

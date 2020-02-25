@@ -2,39 +2,38 @@
 
 class CommunicationService {
 
-    _hubConnection;
-    _teamAddedCallbacks = [];
-    _buzzerDownCallbacks = [];
-    _buzzerUpCallbacks = [];
-    _onConnectedCallbacks = [];
-    _clearCacheCallbacks = [];
-    _isWinnerStartCallbacks = [];
-    _isWinnerEndCallbacks = [];
-    _setWinnerCallbacks = [];
-    _releaseWinnerCallbacks = [];
-    _setLoserCallbacks = [];
-    _releaseLoserCallbacks = [];
-
     constructor() {
+        this._hubConnection;
+        this._teamAddedCallbacks = [];
+        this._buzzerDownCallbacks = [];
+        this._buzzerUpCallbacks = [];
+        this._onConnectedCallbacks = [];
+        this._clearCacheCallbacks = [];
+        this._isWinnerStartCallbacks = [];
+        this._isWinnerEndCallbacks = [];
+        this._setWinnerCallbacks = [];
+        this._releaseWinnerCallbacks = [];
+        this._setLoserCallbacks = [];
+        this._releaseLoserCallbacks = [];
+
         this._hubConnection = new signalR.HubConnectionBuilder()
             .withAutomaticReconnect()
             .withUrl('/gameshow').build();
 
         this._hubConnection.start().then(() => {
-            console.log('Hub connection started');
+            console.log("Hub connection started");
 
             this._onConnectedCallbacks.forEach((cb) => {
                 cb();
             });
+
+            this.on('TeamAdded').execute(this._teamAddedCallbacks);
+            this.on('WinnerBuzz').execute(this._setWinnerCallbacks);
+            this.on('ClearCache').execute(this._clearCacheCallbacks);
+            this.on('WinnerUp').execute(this._releaseWinnerCallbacks);
+            this.on('LoserBuzz').execute(this._setLoserCallbacks);
+            this.on('LoserUp').execute(this._releaseLoserCallbacks);
         });
-
-        this.on('TeamAdded').execute(this._teamAddedCallbacks);
-        this.on('WinnerBuzz').execute(this._setWinnerCallbacks);
-        this.on('ClearCache').execute(this._clearCacheCallbacks);
-        this.on('WinnerUp').execute(this._releaseWinnerCallbacks);
-        this.on('LoserBuzz').execute(this._setLoserCallbacks);
-        this.on('LoserUp').execute(this._releaseLoserCallbacks);
-
     }
 
     on(method) {

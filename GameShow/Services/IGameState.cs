@@ -8,8 +8,6 @@ namespace GameShow.Services
 {
     public interface IGameState
     {
-        static IGameState Instance;
-
         void AddTeamMember(string teamName, string memberName, string connectionId);
 
         void AddTeam(string teamName);
