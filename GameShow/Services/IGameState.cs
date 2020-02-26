@@ -8,8 +8,6 @@ namespace GameShow.Services
 {
     public interface IGameState
     {
-        static IGameState Instance;
-
         void AddTeamMember(string teamName, string memberName, string connectionId);
 
         void AddTeam(string teamName);
@@ -23,5 +21,13 @@ namespace GameShow.Services
         void SetScore(string teamName, int score);
 
         string GetConnectionId(string teamName, string player);
+
+        bool TryBuzz(string team);
+
+        bool ReleaseBuzzer(string team);
+
+        void SetGameMasterConnectionId(string connectionId);
+
+        string GetGameMasterConnectionId();
     }
 }

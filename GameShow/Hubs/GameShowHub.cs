@@ -26,14 +26,34 @@ namespace GameShow.Hubs
             return base.OnConnectedAsync();
         }
 
+        /// <summary>
+        /// A player has pressed the buzzer
+        /// </summary>
+        /// <returns></returns>
         public async Task BuzzerDown()
         {
-            await Clients.All.SendAsync("BuzzerDown", Context.Items["Team"], Context.Items["Name"]);
+            var team = Context.Items["Team"].ToString();
+            
+            var isWinner = _state.TryBuzz(team);
+            await SendToGameMaster(new Message() 
+            { 
+                Type = isWinner ? MessageType.WinnerBuzz : MessageType.LoserBuzz, 
+            });
         }
 
+        /// <summary>
+        /// A player has released the buzzer
+        /// </summary>
+        /// <returns></returns>
         public async Task BuzzerUp()
         {
-            await Clients.All.SendAsync("BuzzerUp", Context.Items["Team"], Context.Items["Name"]);
+            var team = Context.Items["Team"].ToString();
+
+            var isWinner = _state.ReleaseBuzzer(team);
+            await SendToGameMaster(new Message()
+            {
+                Type = isWinner ? MessageType.WinnerUp : MessageType.LoserUp
+            });
         }
 
         public async Task SaveName(string team, string player)
@@ -94,18 +114,15 @@ namespace GameShow.Hubs
             await Clients.All.SendAsync("TeamAdded", teamName, 0);
         }
 
-        public void AddGameMaster(string userToken)
+        public void AddGameMaster()
         {
-            // TODO: User token should validate that it is the correct game master page
-
+            _state.SetGameMasterConnectionId(Context.ConnectionId);
         }
 
-        public async Task SetWinner(string teamName, string player) 
-        {
-            string connectionId = _state.GetConnectionId(teamName, player);
-
-            await Clients.Client(connectionId).SendAsync("IsWinner");
-        }
+        //public async Task SetWinner(string teamName, string player) 
+        //{
+        //    string connectionId = _state.GetConnectionId(teamName, player);
+        //}
 
         public async Task GetTeams()
         {
@@ -117,6 +134,16 @@ namespace GameShow.Hubs
                 // Yes, we should send a list...
                 await Clients.Caller.SendAsync("TeamAdded", team.Name, team.Score);
             }
+        }
+
+        private async Task SendToGameMaster(Message m)
+        {
+            var mcid = _state.GetGameMasterConnectionId();
+
+            m.Team = Context.Items["Team"].ToString();
+            m.Player = Context.Items["Name"].ToString();
+
+            await Clients.Client(mcid).SendAsync(m.Type.ToString(), m);
         }
     }
 }
