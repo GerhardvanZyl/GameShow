@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,11 +27,11 @@ namespace GameShow
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    
-                    var hostUrl = config["hosturl"];
-                    
-                    if (!string.IsNullOrEmpty(hostUrl))
-                        webBuilder.UseUrls(hostUrl);
+
+                    var hostName = Dns.GetHostName();
+                    var ip = Dns.GetHostEntry(hostName).AddressList.FirstOrDefault(i => i.ToString().Contains(".")).ToString();
+                
+                    webBuilder.UseUrls($"http://{ip}");
                 });
         }
     }

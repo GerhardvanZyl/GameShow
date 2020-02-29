@@ -27,6 +27,7 @@ namespace GameShow
         {
             services.AddRazorPages();
             services.AddSignalR();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +44,7 @@ namespace GameShow
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -54,6 +55,7 @@ namespace GameShow
             {
                 endpoints.MapRazorPages();
                 endpoints.MapHub<GameShowHub>("/gameshow");
+                endpoints.MapControllers();
             });
         }
     }

@@ -145,5 +145,11 @@ namespace GameShow.Hubs
 
             await Clients.Client(mcid).SendAsync(m.Type.ToString(), m);
         }
+
+        public async Task ClearState()
+        {
+            _state.ClearState();
+            await Clients.All.SendAsync("ClearCache");
+        }
     }
 }

@@ -148,5 +148,10 @@ namespace GameShow.Services
         {
             return gameMasterConnectionId;
         }
+
+        public void ClearState()
+        {
+            Teams.Clear();
+        }
     }
 }
