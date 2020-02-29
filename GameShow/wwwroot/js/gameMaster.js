@@ -4,7 +4,7 @@
 {
     let scoreboardCount = 0;
     const commsSvc = new CommunicationService();
-    const teams = {};
+    let teams = {};
     const scoreboardsContainer = document.getElementById('score-boards');
     const teamInput = document.getElementById('team-name');
     const scoreboardTemplate =
@@ -90,4 +90,16 @@
         document.getElementsByClassName(`team${teams[o.team]}`)[0].classList.remove('too-late');
     });
 
+    document.getElementById("toggle-qr").addEventListener("click", () => {
+        let qrDiv = document.getElementById("qr");
+        if (qrDiv.classList.contains("hidden")) {
+            qrDiv.classList.remove("hidden");
+        } else {
+            qrDiv.classList.add("hidden");
+        }
+    });
+
+    document.getElementById("clear-state").addEventListener("click", () => {
+        alert("Not implemented");
+    });
 }

@@ -167,6 +167,10 @@ h1#header.team4 {
     width: 250px;
 }
 
+.hidden{
+    display: none;
+}
+
 /*.game-master-heading{
     float:left;
 }

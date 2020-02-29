@@ -1,16 +1,21 @@
 ﻿@page
 @model GameShow.Pages.GameMasterModel
 @{
-    ViewData["Title"] = "Pub Quiz";
+    ViewData["Title"] = "Game Show";
 }
 
-<h1>Pub Quiz</h1>
+    <h1>Game Show</h1>
 
 <div>
     <input type="text" id="team-name" />
     <button id="add-team">Add Team</button>
     <button id="clear-state">Clear State</button>
+    <button id="toggle-qr">Toggle QR code</button>
     <hr />
+    <div id="qr" class="hidden">
+        <img src="~/image/qrCode" />
+    </div>
+
     <div id="score-boards">
     </div>
 </div>
@@ -18,6 +23,4 @@
     // TODO: security
     window.userToken = "GameMaster";
 </script>
-<script src="~/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/communicationService.js"></script>
 <script src="~/js/gameMaster.js"></script>

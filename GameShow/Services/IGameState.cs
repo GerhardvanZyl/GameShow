@@ -29,5 +29,7 @@ namespace GameShow.Services
         void SetGameMasterConnectionId(string connectionId);
 
         string GetGameMasterConnectionId();
+
+        void ClearState();
     }
 }
