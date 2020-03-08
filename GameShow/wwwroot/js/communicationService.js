@@ -1,6 +1,5 @@
-﻿'use strict';
-
-class CommunicationService {
+﻿
+export class CommunicationService {
 
     constructor() {
         this._hubConnection;
@@ -159,3 +158,4 @@ class CommunicationService {
         });
     }
 }
+
