@@ -79,7 +79,7 @@ body {
 #score-boards > div {
     width: 40%;
     float: left;
-    margin: 5px;
+    margin: 0 5px;
 }
 
 #score-boards h3 {
@@ -99,67 +99,67 @@ body {
     
 }
 
-.score-card.team1.buzzed {
+.score-card.team0.buzzed {
     background-color: blue;
 }
 
-.score-card.team2.buzzed {
+.score-card.team1.buzzed {
     background-color: red;
 }
 
-.score-card.team3.buzzed {
+.score-card.team2.buzzed {
     background-color: green;
 }
 
-.score-card.team4.buzzed {
+.score-card.team3.buzzed {
     background-color: yellow;
 }
 
-.score-card.team1 {
+.score-card.team0 {
     background-color: #C0C0FF;
 }
 
-.score-card.team2 {
+.score-card.team1 {
     background-color: #FFC0C0;
 }
 
-.score-card.team3 {
+.score-card.team2 {
     background-color: #C0E0C0;
 }
 
-.score-card.team4 {
+.score-card.team3 {
     background-color: #FFFFC0;
 }
 
-.score-card.team1.too-late {
+.score-card.team0.too-late {
     border-color: blue;
 }
 
-.score-card.team2.too-late {
+.score-card.team1.too-late {
     border-color: red;
 }
 
-.score-card.team3.too-late {
+.score-card.team2.too-late {
     border-color: green;
 }
 
-.score-card.team4.too-late {
+.score-card.team3.too-late {
     border-color: yellow;
 }
 
-h1#header.team1{
+h1#header.team0{
     color: darkblue;
 }
 
-h1#header.team2 {
+h1#header.team1 {
     color: darkred;
 }
 
-h1#header.team3 {
+h1#header.team2 {
     color: darkgreen;
 }
 
-h1#header.team4 {
+h1#header.team3 {
     color: goldenrod;
 }
 
@@ -170,6 +170,17 @@ h1#header.team4 {
 .hidden{
     display: none;
 }
+
+.in-card {
+    top: -250px;
+    text-align: center;
+    font-size: 2rem;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    line-height: 1.75rem;
+}
+
 
 /*.game-master-heading{
     float:left;

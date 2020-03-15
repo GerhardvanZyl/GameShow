@@ -119,11 +119,6 @@ namespace GameShow.Hubs
             _state.SetGameMasterConnectionId(Context.ConnectionId);
         }
 
-        //public async Task SetWinner(string teamName, string player) 
-        //{
-        //    string connectionId = _state.GetConnectionId(teamName, player);
-        //}
-
         public async Task GetTeams()
         {
             var teams = _state.GetTeams();

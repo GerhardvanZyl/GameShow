@@ -54,7 +54,7 @@ namespace GameShow.Services
 
         public void AddTeam(string teamName)
         {
-
+            // TODO handle errors
             Teams.Add(teamName, new Team() { Name = teamName });
             _repo.SaveSession(Teams);
         }

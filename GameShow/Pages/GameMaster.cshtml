@@ -4,23 +4,16 @@
     ViewData["Title"] = "Game Show";
 }
 
-    <h1>Game Show</h1>
+<h1>Game Show</h1>
 
-<div>
-    <input type="text" id="team-name" />
-    <button id="add-team">Add Team</button>
-    <button id="clear-state">Clear State</button>
-    <button id="toggle-qr">Toggle QR code</button>
-    <hr />
-    <div id="qr" class="hidden">
-        <img src="~/image/qrCode" />
-    </div>
-
-    <div id="score-boards">
-    </div>
+<div id="app">
 </div>
+
+
 <script type="text/html">
     // TODO: security
     window.userToken = "GameMaster";
 </script>
-<script type="module" src="~/js/gameMaster.js"></script>
+<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+<script type="module" src="~/dist/GameMaster/gameMaster.js"></script>
