@@ -1,4 +1,4 @@
-A .Net Core 3.1 gameshow/pubquiz app using signalR and React, and is currently about 90% working.
+A .Net Core 3.1 gameshow/pubquiz app using signalR and React, and is currently mostly bug free.
 
 http://[siteurl] - players
 
